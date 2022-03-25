@@ -29,10 +29,6 @@ RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
 # Set working directory
-WORKDIR /var/www/html
+WORKDIR /var/www
 
 USER $user
-
-WORKDIR /var/www/html/blog/
-
-CMD ["php","artisan","serve", "--host", "0.0.0.0"]

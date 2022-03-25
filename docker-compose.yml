@@ -8,13 +8,11 @@ services:
       context: ./
       dockerfile: Dockerfile
     image: laravel-demo
-    ports:
-      - 8000:8000
     container_name: laravel-demo-app
     restart: unless-stopped
-    working_dir: /var/www/html/blog
+    working_dir: /var/www/
     volumes:
-      - ./blog:/var/www/html/blog
+      - ./blog/:/var/www
     networks:
       - laravel-demo
   db:
@@ -30,6 +28,17 @@ services:
       SERVICE_NAME: mysql
     volumes:
       - db-volume:/var/lib/mysql
+    networks:
+      - laravel-demo
+  nginx:
+    image: nginx:alpine
+    container_name: laravel-app-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./blog:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
     networks:
       - laravel-demo
 
